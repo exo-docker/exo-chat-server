@@ -11,18 +11,17 @@ ARG DOWNLOAD_URL=https://repository.exoplatform.org/public/org/exoplatform/addon
 RUN cd /usr/local && wget ${TOMCAT_URL} -O tomcat.tar.gz && tar xvzf tomcat.tar.gz && ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && rm -rf /usr/local/tomcat/webapps/* && rm -v tomcat.tar.gz
 
 ## Chat server installation
-RUN cd /tmp && wget -O exo-addons-chat-extension.zip ${DOWNLOAD_URL}
-# TODO squash
-RUN cd /tmp && unzip exo-addons-chat-extension.zip && unzip exo-addons-chat-extension/exo-addons-chat-server-${CHAT_SERVER_VERSION}.zip chatServer.war -d /usr/local/tomcat/webapps && rm -rf exo-addons-chat-extension*
-RUN cd /usr/local/tomcat/webapps && unzip chatServer.war -d chatServer && rm -v chatServer/WEB-INF/lib/slf4j*
+RUN cd /tmp && wget -O exo-addons-chat-extension.zip ${DOWNLOAD_URL} && \
+        unzip exo-addons-chat-extension.zip && unzip exo-addons-chat-extension/exo-addons-chat-server-${CHAT_SERVER_VERSION}.zip chatServer.war -d /usr/local/tomcat/webapps && rm -rf exo-addons-chat-extension* && \
+        cd /usr/local/tomcat/webapps && unzip chatServer.war -d chatServer && rm -v chatServer/WEB-INF/lib/slf4j*
 
+## Dependencies installation
 ENV SLF4J_VERSION=1.7.18
-RUN wget https://repository.exoplatform.org/public/org/slf4j/slf4j-api/${SLF4J_VERSION}/slf4j-api-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/slf4j-api-${SLF4J_VERSION}.jar
-RUN wget https://repository.exoplatform.org/public/org/slf4j/jul-to-slf4j/${SLF4J_VERSION}/jul-to-slf4j-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/jul-to-slf4j-${SLF4J_VERSION}.jar
-
 ENV LOGBACK_VERSION=1.1.2
-RUN wget https://repository.exoplatform.org/public/ch/qos/logback/logback-core/${LOGBACK_VERSION}/logback-core-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-core-${LOGBACK_VERSION}.jar
-RUN wget https://repository.exoplatform.org/public/ch/qos/logback/logback-classic/${LOGBACK_VERSION}/logback-classic-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-classic-${LOGBACK_VERSION}.jar
+RUN wget https://repository.exoplatform.org/public/org/slf4j/slf4j-api/${SLF4J_VERSION}/slf4j-api-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/slf4j-api-${SLF4J_VERSION}.jar && \
+    wget https://repository.exoplatform.org/public/org/slf4j/jul-to-slf4j/${SLF4J_VERSION}/jul-to-slf4j-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/jul-to-slf4j-${SLF4J_VERSION}.jar && \
+    wget https://repository.exoplatform.org/public/ch/qos/logback/logback-core/${LOGBACK_VERSION}/logback-core-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-core-${LOGBACK_VERSION}.jar && \
+    wget https://repository.exoplatform.org/public/ch/qos/logback/logback-classic/${LOGBACK_VERSION}/logback-classic-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-classic-${LOGBACK_VERSION}.jar
 
 COPY bin/setenv.sh /usr/local/tomcat/bin/
 COPY conf/logback.xml /usr/local/tomcat/conf/
