@@ -9,6 +9,7 @@ This image is only for the chat server, you must have an external mongo database
 
 ## Configuration
 
+### Chat properties
 
 | VARIABLE                | MANDATORY | DEFAULT_VALUE           | DESCRIPTION
 |-------------------------|-----------|-------------------------|-------------------------------------------
@@ -23,12 +24,27 @@ This image is only for the chat server, you must have an external mongo database
 | CHAT_READ_DAYS          | NO        | 30                      | The messages older then ``CHAT_READ_DAYS`` days will not be displayed on a room
 | CHAT_READ_TOTAL_JSON    | NO        | 200                     | The maximum number of messages to retrieve
 
+### SMTP
+
+| VARIABLE                | MANDATORY | DEFAULT_VALUE           | DESCRIPTION
+|-------------------------|-----------|-------------------------|-------------------------------------------
+| CHAT_SMTP_HOST          | NO        | `localhost`             | SMTP Server hostname
+| CHAT_SMTP_PORT          | NO        | `25`                    | SMTP Server port
+| CHAT_SMTP_USER          | NO        | -                       | authentication username for smtp server (if needed)
+| CHAT_SMTP_PASSWORD      | NO        | -                       | authentication password for smtp server (if needed)
+| CHAT_SMTP_FROM          | NO        | `noreply@exoplatform.com` | "from" field of emails sent by the chat server
+| CHAT_SMTP_STARTTLS_ENABLED | NO     | `false`                 | true to enable the secure (TLS) SMTP. See RFC 3207.
+| CHAT_SMTP_SSL_ENABLED   | NO        | `false`                 | true to enable the secure (SSL) SMTP.
+
 ## Usage
 
 ```
 docker run -ti -p 8080:8080 -e CHAT_PASSPHRASE=changeme --link mongo:mongo exoplatform/chat-server:latest
 ```
 
+# Known limitation
+
+* The meeting notes can't be sent if the chatserver can reach the eXo Platform server via a public address
 
 # TODO
 

@@ -14,6 +14,7 @@ add_in_chat_configuration() {
   echo "${P1}" >> ${_CONFIG_FILE}
 }
 
+# Chat server configuration
 [ -z "${CHAT_MONGO_DB_HOST}" ] && CHAT_MONGO_DB_HOST="mongo"
 [ -z "${CHAT_MONGO_DB_PORT}" ] && CHAT_MONGO_DB_PORT="27017"
 [ -z "${CHAT_MONGO_DB_NAME}" ] && CHAT_MONGO_DB_NAME="chat"
@@ -26,8 +27,16 @@ add_in_chat_configuration() {
 [ -z "${CHAT_READ_DAYS}" ] && CHAT_READ_DAYS="30"
 [ -z "${CHAT_READ_TOTAL_JSON}" ] && CHAT_READ_TOTAL_JSON="200"
 [ -z "${CHAT_PUBLIC_ADMIN_GROUP}" ] && CHAT_PUBLIC_ADMIN_GROUP="/platform/administrators"
+# SMTP configuration
+[ -z "${CHAT_SMTP_HOST}" ] && CHAT_SMTP_HOST=""
+[ -z "${CHAT_SMTP_PORT}" ] && CHAT_SMTP_PORT=""
+[ -z "${CHAT_SMTP_USER}" ] && CHAT_SMTP_USER=""
+[ -z "${CHAT_SMTP_PASSWORD}" ] && CHAT_SMTP_PASSWORD=""
+[ -z "${CHAT_SMTP_FROM}" ] && CHAT_SMTP_FROM="noreply@exoplatform.com"
+[ -z "${CHAT_SMTP_STARTTLS_ENABLED}" ] && CHAT_SMTP_TLS_ENABLED="false"
+[ -z "${CHAT_SMTP_SSL_ENABLED}" ] && CHAT_SMTP_SSL_ENABLED="false"
 
-if [ -z "${MONGO_DB_USER}" ]; then
+if [ -z "${CHAT_MONGO_DB_USER}" ]; then
     add_in_chat_configuration "dbAuthentication=false"
     add_in_chat_configuration "#dbUser="
     add_in_chat_configuration "#dbPassword="
@@ -48,6 +57,22 @@ add_in_chat_configuration "chatReadDays=${CHAT_READ_DAYS}"
 add_in_chat_configuration "chatReadTotalJson=${CHAT_READ_TOTAL_JSON}"
 add_in_chat_configuration "publicAdminGroup=${CHAT_PUBLIC_ADMIN_GROUP}"
 
+# SMTP configuration
+add_in_chat_configuration "email.smtp.host=${CHAT_SMTP_HOST}"
+add_in_chat_configuration "email.smtp.port=${CHAT_SMTP_PORT}"
+if [ -z "${CHAT_SMTP_USER}" ]; then
+    add_in_chat_configuration "email.smtp.auth=false"
+    add_in_chat_configuration "#email.smtp.username="
+    add_in_chat_configuration "#email.smtp.password="
+else
+    add_in_chat_configuration "email.smtp.auth=true"
+    add_in_chat_configuration "email.smtp.username=${CHAT_SMTP_USER}"
+    add_in_chat_configuration "email.smtp.password=${CHAT_SMTP_PASSWORD}"
+fi
+
+add_in_chat_configuration "email.smtp.from=${CHAT_SMTP_FROM}"
+add_in_chat_configuration "email.smtp.starttls.enable=${CHAT_SMTP_STARTTLS_ENABLED}"
+add_in_chat_configuration "email.smtp.EnableSSL.enable=${CHAT_SMTP_SSL_ENABLED}"
 
 CLASSPATH="$CLASSPATH":"$CATALINA_HOME/lib/slf4j-api-${SLF4J_VERSION}.jar"
 CLASSPATH="$CLASSPATH":"$CATALINA_HOME/lib/jul-to-slf4j-${SLF4J_VERSION}.jar"
