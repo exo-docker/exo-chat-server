@@ -1,5 +1,6 @@
 #FROM tomcat:7.0.75-jre8
 FROM  exoplatform/base-jdk:jdk8
+LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
 ARG TOMCAT_VERSION=7.0.75
 ARG TOMCAT_URL=http://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
