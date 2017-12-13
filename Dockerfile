@@ -7,7 +7,7 @@ ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
 ARG VERSION=1.6.x-SNAPSHOT
 
 COPY download.sh /
-RUN chmod u+x /download.sh && /download.sh
+RUN chmod u+x /download.sh && sync && /download.sh
 # COPY install.sh /
 # RUN chmod u+x /install.sh && /install.sh
 
