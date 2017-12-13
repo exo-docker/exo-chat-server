@@ -1,35 +1,31 @@
-#FROM tomcat:7.0.75-jre8
-FROM  exoplatform/base-jdk:jdk8
+FROM exoplatform/base-jdk:jdk8 AS install
+
+ARG CHAT_SERVER_VERSION=1.6.x-SNAPSHOT
+
+ENV GROUP_ID=org.exoplatform.addons.chat
+ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
+ARG VERSION=1.6.x-SNAPSHOT
+
+COPY download.sh /
+RUN chmod u+x /download.sh && /download.sh
+# COPY install.sh /
+# RUN chmod u+x /install.sh && /install.sh
+
+RUN cd /usr/local && unzip /chatserver.zip && mv chat-server-standalone-${VERSION} chat-server
+
+FROM exoplatform/base-jdk:jdk8
+
 LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
-ARG TOMCAT_VERSION=7.0.75
-ARG TOMCAT_URL=http://archive.apache.org/dist/tomcat/tomcat-7/v${TOMCAT_VERSION}/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz
-ARG CHAT_SERVER_VERSION=1.5.0
-#ARG DOWNLOAD_URL=http://addons.exoplatform.org/exo/chat/exo-addons-chat-extension-pkg-standalone/${CHAT_SERVER_VERSION}/zip
-ARG DOWNLOAD_URL=https://repository.exoplatform.org/public/org/exoplatform/addons/chat/exo-addons-chat-extension-pkg-standalone/1.5.0/exo-addons-chat-extension-pkg-standalone-1.5.0.zip
+ENV EXO_USER=exo
+# add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+# (we use 999 as uid like in official Docker images)
+RUN useradd --create-home -u 999 --user-group --shell /bin/bash ${EXO_USER}
 
-## Tomcat installation
-RUN cd /usr/local && wget ${TOMCAT_URL} -O tomcat.tar.gz && tar xvzf tomcat.tar.gz && ln -s /usr/local/apache-tomcat-${TOMCAT_VERSION} /usr/local/tomcat && rm -rf /usr/local/tomcat/webapps/* && rm -v tomcat.tar.gz
-
-## Chat server installation
-RUN cd /tmp && wget -O exo-addons-chat-extension.zip ${DOWNLOAD_URL} && \
-        unzip exo-addons-chat-extension.zip && unzip exo-addons-chat-extension/exo-addons-chat-server-${CHAT_SERVER_VERSION}.zip chatServer.war -d /usr/local/tomcat/webapps && rm -rf exo-addons-chat-extension* && \
-        cd /usr/local/tomcat/webapps && unzip chatServer.war -d chatServer && rm -v chatServer/WEB-INF/lib/slf4j*
-
-## Dependencies installation
-ENV SLF4J_VERSION=1.7.18
-ENV LOGBACK_VERSION=1.1.2
-RUN wget https://repository.exoplatform.org/public/org/slf4j/slf4j-api/${SLF4J_VERSION}/slf4j-api-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/slf4j-api-${SLF4J_VERSION}.jar && \
-    wget https://repository.exoplatform.org/public/org/slf4j/jul-to-slf4j/${SLF4J_VERSION}/jul-to-slf4j-${SLF4J_VERSION}.jar -O /usr/local/tomcat/lib/jul-to-slf4j-${SLF4J_VERSION}.jar && \
-    wget https://repository.exoplatform.org/public/ch/qos/logback/logback-core/${LOGBACK_VERSION}/logback-core-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-core-${LOGBACK_VERSION}.jar && \
-    wget https://repository.exoplatform.org/public/ch/qos/logback/logback-classic/${LOGBACK_VERSION}/logback-classic-${LOGBACK_VERSION}.jar -O /usr/local/tomcat/lib/logback-classic-${LOGBACK_VERSION}.jar
-
-COPY bin/setenv.sh /usr/local/tomcat/bin/
-COPY conf/logback.xml /usr/local/tomcat/conf/
-COPY conf/logging.properties /usr/local/tomcat/conf/
+COPY --from=install /usr/local/chat-server /usr/local/chat-server
+COPY bin/setenv.sh /usr/local/chat-server/bin/setenv-customize.sh
+RUN chmod u+x /usr/local/chat-server/bin/setenv-customize.sh
 
 EXPOSE 8080
 
-WORKDIR /usr/local/tomcat
-
-CMD [ "/usr/local/tomcat/bin/catalina.sh", "run" ]
+CMD [ "/usr/local/chat-server/start_chatServer.sh" ]

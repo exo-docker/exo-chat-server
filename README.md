@@ -36,6 +36,13 @@ This image is only for the chat server, you must have an external mongo database
 | CHAT_SMTP_STARTTLS_ENABLED | NO     | `false`                 | true to enable the secure (TLS) SMTP. See RFC 3207.
 | CHAT_SMTP_SSL_ENABLED   | NO        | `false`                 | true to enable the secure (SSL) SMTP.
 
+### Log
+
+| VARIABLE                 | MANDATORY | DEFAULT_VALUE           | DESCRIPTION
+|--------------------------|-----------|-------------------------|-------------------------------------------
+| EXO_LOGS_DISPLAY_CONSOLE | NO        | `false`                 | Disable logs on console
+
+
 ## Usage
 
 ```
@@ -46,6 +53,3 @@ docker run -ti -p 8080:8080 -e CHAT_PASSPHRASE=changeme --link mongo:mongo exopl
 
 * The meeting notes can't be sent if the chatserver can reach the eXo Platform server via a public address
 
-# TODO
-
-[ ] Reduce image size
