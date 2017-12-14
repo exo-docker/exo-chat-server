@@ -4,7 +4,6 @@ ARG CHAT_SERVER_VERSION=1.6.x-SNAPSHOT
 
 ENV GROUP_ID=org.exoplatform.addons.chat
 ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
-ARG VERSION=1.6.x-SNAPSHOT
 
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
