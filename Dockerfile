@@ -10,7 +10,7 @@ RUN chmod u+x /download.sh && sync && /download.sh
 # COPY install.sh /
 # RUN chmod u+x /install.sh && /install.sh
 
-RUN cd /usr/local && unzip /chatserver.zip && mv chat-server-standalone-${VERSION} chat-server
+RUN cd /usr/local && unzip /chatserver.zip && mv chat-server-standalone-${CHAT_SERVER_VERSION} chat-server
 
 FROM exoplatform/base-jdk:jdk8
 
