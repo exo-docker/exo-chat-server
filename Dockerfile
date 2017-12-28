@@ -1,6 +1,6 @@
 FROM exoplatform/base-jdk:jdk8 AS install
 
-ARG CHAT_SERVER_VERSION=1.6.x-SNAPSHOT
+ARG CHAT_SERVER_VERSION=1.6.0-RC03
 
 ENV GROUP_ID=org.exoplatform.addons.chat
 ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
