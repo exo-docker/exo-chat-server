@@ -1,8 +1,9 @@
 # Standalone chat server Docker Image
 
-| Image  | Chat server version | MongoDb Version
-|--------|---------------------|-----------------
-| latest | 1.5.0               | 3.0
+| Image      | Chat server version | MongoDb Version
+|------------|---------------------|-----------------
+| latest     | 2.0.x               | 3.4
+| 2.0_latest | 2.0.x               | 3.4
 
 
 This image is only for the chat server, you must have an external mongo database running.
