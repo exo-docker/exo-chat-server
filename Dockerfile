@@ -1,6 +1,11 @@
+# Dockerizing image for eXo Chat standalone server
+# 
+# Build:    docker build -t exoplatform/chat-server .
+#
+
 FROM exoplatform/base-jdk:jdk8 AS install
 
-ARG CHAT_SERVER_VERSION=2.0.1
+ARG CHAT_SERVER_VERSION=2.0.2
 
 ENV GROUP_ID=org.exoplatform.addons.chat
 ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
