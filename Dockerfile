@@ -2,9 +2,6 @@ FROM exoplatform/base-jdk:jdk8 AS install
 
 ARG CHAT_SERVER_VERSION=2.1.x-SNAPSHOT
 
-ENV GROUP_ID=org.exoplatform.addons.chat
-ENV ARTIFACT_ID=chat-standalone-server-tomcat-distrib
-
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
 # COPY install.sh /
