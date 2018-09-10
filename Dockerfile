@@ -1,6 +1,6 @@
 FROM exoplatform/base-jdk:jdk8 AS install
 
-ARG CHAT_SERVER_VERSION=2.1.x-SNAPSHOT
+ARG CHAT_SERVER_VERSION=2.1.0-RC11
 
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
