@@ -2,7 +2,7 @@
 
 | Image      | Chat server version | MongoDb Version
 |------------|---------------------|-----------------
-| latest     | 2.1.x               | 3.6
+| latest     | 2.2.x               | 3.6
 | 2.1_latest | 2.1.x               | 3.6
 | 2.0_latest | 2.0.x               | 3.4
 
