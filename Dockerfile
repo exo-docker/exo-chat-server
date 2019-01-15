@@ -1,6 +1,14 @@
+# Dockerizing base image for eXo Platform Chat Server Standalone with:
+#
+# - eXo Platform Chat Server Standalone
+
+# Build:    docker build -t exoplatform/chat-server .
+#
+# Run:      docker run -p 8080:8080 exoplatform/chat-server
+
 FROM exoplatform/base-jdk:jdk8 AS install
 
-ARG CHAT_SERVER_VERSION=2.1.x-SNAPSHOT
+ARG CHAT_SERVER_VERSION=2.1.0
 
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
