@@ -13,4 +13,5 @@ else
     DOWNLOAD_URL=https://downloads.exoplatform.org/public/chat-standalone-server-tomcat-${CHAT_SERVER_VERSION}.zip
 fi
 
-wget -O chatserver.zip ${DOWNLOAD_URL}
+#wget -O chatserver.zip ${DOWNLOAD_URL}
+curl -sS -L -o /chatserver.zip ${DOWNLOAD_URL}

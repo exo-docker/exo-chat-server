@@ -1,0 +1,24 @@
+version: '2'
+services:
+  chat:
+    image: exoplatform/chat-server
+    environment:
+      CHAT_MONGO_HOST: mongo
+      CHAT_MONGO_PORT: 27017
+      EXO_JVM_LOG_GC_ENABLED: "true"
+      EXO_ACCESS_LOG_ENABLED: "true"
+    ports: 
+      - "8080:8080"
+    links:
+      - mongo
+    depends_on: 
+      - mongo
+    volumes:
+      - chat_logs:/var/log/chat-server:rw
+  mongo:
+    image: mongo:4.0
+    volumes:
+      - mongo_data:/data/db:rw
+volumes:
+  chat_logs:
+  mongo_data:
