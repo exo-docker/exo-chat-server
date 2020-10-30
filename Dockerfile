@@ -8,7 +8,7 @@
 # ----- build step 1
 FROM  exoplatform/jdk:8-ubuntu-1804 AS install
 
-ARG CHAT_SERVER_VERSION=3.1.0-M08
+ARG CHAT_SERVER_VERSION=3.1.0-M09
 
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
