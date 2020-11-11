@@ -30,6 +30,8 @@ set +u		# DEACTIVATE unbound variable check
 [ -z "${CHAT_MONGO_DB_AUTHENTICATION}" ] && CHAT_MONGO_DB_AUTHENTICATION="false"
 [ -z "${CHAT_MONGO_DB_USER}" ] && CHAT_MONGO_DB_USER=""
 [ -z "${CHAT_MONGO_DB_PASSWORD}" ] && CHAT_MONGO_DB_PASSWORD=""
+[ -z "${CHAT_HTTP_PORT}" ] && CHAT_HTTP_PORT="8080"
+[ -z "${CHAT_SERVER_STOP_PORT}" ] && CHAT_SERVER_STOP_PORT="8005"
 [ -z "${CHAT_PORTAL_PAGE}" ] && CHAT_PORTAL_PAGE="/portal/intranet/chat"
 [ -z "${CHAT_PASSPHRASE}" ] && CHAT_PASSPHRASE="changeme"
 [ -z "${CHAT_CRON_NOTIF_CLEANUP}" ] && CHAT_CRON_NOTIF_CLEANUP="0 0/60 * * * ?"
@@ -124,23 +126,19 @@ else
   xmlstarlet ed -L -s "/Server/Service/Connector" -t attr -n "maxThreads" -v "${EXO_HTTP_THREAD_MAX}" \
     -s "/Server/Service/Connector" -t attr -n "minSpareThreads" -v "${EXO_HTTP_THREAD_MIN}" \
     ${CHAT_APP_DIR}/conf/server.xml || {
-    echo "ERROR during xmlstarlet processing (adding Connector proxyName)"
+    echo "ERROR during xmlstarlet processing (adding Connector thread pool configuration)"
+    exit 1
+  }
+
+  # Tomcat HTTP port configuration
+  xmlstarlet ed -L -u '/Server/Service/Connector/@port' -v "${CHAT_HTTP_PORT}" \
+    -u "/Server/@port" -v "${CHAT_SERVER_STOP_PORT}" ${CHAT_APP_DIR}/conf/server.xml || {
+    echo "ERROR during xmlstarlet processing (changing Connector port)"
     exit 1
   }
 
   # JMX configuration
   if [ "${EXO_JMX_ENABLED}" = "true" ]; then
-    # insert the listener before the "Global JNDI resources" line
-    xmlstarlet ed -L -i "/Server/GlobalNamingResources" -t elem -n ListenerTMP -v "" \
-      -i "//ListenerTMP" -t attr -n "className" -v "org.apache.catalina.mbeans.JmxRemoteLifecycleListener" \
-      -i "//ListenerTMP" -t attr -n "rmiRegistryPortPlatform" -v "${EXO_JMX_RMI_REGISTRY_PORT}" \
-      -i "//ListenerTMP" -t attr -n "rmiServerPortPlatform" -v "${EXO_JMX_RMI_SERVER_PORT}" \
-      -i "//ListenerTMP" -t attr -n "useLocalPorts" -v "false" \
-      -r "//ListenerTMP" -v "Listener" \
-      ${CHAT_APP_DIR}/conf/server.xml || {
-      echo "ERROR during xmlstarlet processing (adding JmxRemoteLifecycleListener)"
-      exit 1
-    }
     # Create the security files if required
     if [ "${EXO_JMX_USERNAME:-}" != "-" ]; then
       if [ "${EXO_JMX_PASSWORD:-}" = "-" ]; then

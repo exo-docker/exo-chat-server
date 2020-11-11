@@ -28,6 +28,8 @@ This image is only for the chat server, you must have an external mongo database
 
 | VARIABLE                | MANDATORY | DEFAULT_VALUE           | DESCRIPTION                                                                                  |
 |-------------------------|-----------|-------------------------|----------------------------------------------------------------------------------------------|
+| CHAT_HTTP_PORT          | NO        | `8080`                  | The server http port to bind to                                                              |
+| CHAT_SERVER_STOP_PORT   | NO        | `8005`                  | The server port used to stop it                                                              |
 | CHAT_PORTAL_PAGE        | NO        | `/portal/intranet/chat` | The page to link on the notifications                                                        |
 | CHAT_PASSPHRASE         | YES       |                         | The chat passphrase. The same value must be used by the eXo Platform server                  |
 | CHAT_CRON_NOTIF_CLEANUP | NO        | `0 0/60 * * * ?`        | The cron expression to configure the notification cleanup                                    |
