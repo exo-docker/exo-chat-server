@@ -205,10 +205,9 @@ fi
 # LOG GC configuration
 # -----------------------------------------------------------------------------
 if [ "${EXO_JVM_LOG_GC_ENABLED}" = "true" ]; then
-  # -XX:+PrintGCDateStamps : print the absolute timestamp in the log statement (i.e. “2014-11-18T16:39:25.303-0800”)
-  # -XX:+PrintGCTimeStamps : print the time when the GC event started, relative to the JVM startup time (unit: seconds)
-  # -XX:+PrintGCDetails    : print the details of how much memory is reclaimed in each generation
-  EXO_JVM_LOG_GC_OPTS="-XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps"
+  # -Xlog:::time,level,tags: print the absolute timestamp in the log statement (i.e. “2014-11-18T16:39:25.303-0800”)
+  # -Xlog:gc*    : print the details of how much memory is reclaimed in each generation
+  EXO_JVM_LOG_GC_OPTS="-Xlog:::time,level,tags -Xlog:gc*"
   echo "Enabling eXo JVM GC logs with [${EXO_JVM_LOG_GC_OPTS}] options ..."
   CATALINA_OPTS="${CATALINA_OPTS:-} ${EXO_JVM_LOG_GC_OPTS} -Xloggc:${CHAT_LOG_DIR}/platform-gc.log"
   # log rotation to backup previous log file (we don't use GC Log file rotation options because they are not suitable)
