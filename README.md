@@ -2,7 +2,9 @@
 
 | Image      | Chat server version | MongoDb Version |
 |------------|---------------------|-----------------|
-| latest     | 3.0.x               | 4.0             |
+| latest     | 3.3.x               | 4.4             |
+| 3.2_latest | 3.2.x               | 4.2             |
+| 3.1_latest | 3.1.x               | 4.0             |
 | 3.0_latest | 3.0.x               | 4.0             |
 | 2.3_latest | 2.3.x               | 4.0             |
 | 2.2_latest | 2.2.x               | 4.0             |
@@ -54,8 +56,8 @@ The standard eXo Platform environment variables can be used :
 
 | VARIABLE               | MANDATORY | DEFAULT_VALUE | DESCRIPTION                                                                                        |
 |------------------------|-----------|---------------|----------------------------------------------------------------------------------------------------|
-| CHAT_MONGO_HOST        | NO        | `mongo`       | The mongo db database host name                                                                    |
-| CHAT_MONGO_PORT        | NO        | `27017`       | The port to connect on mongodb server                                                              |
+| CHAT_MONGO_DB_HOST     | NO        | `mongo`       | The mongo db database host name                                                                    |
+| CHAT_MONGO_DB_PORT     | NO        | `27017`       | The port to connect on mongodb server                                                              |
 | CHAT_MONGO_DB_NAME     | NO        | `chat`        | The mongodb database name to use for eXo Chat                                                      |
 | CHAT_MONGO_DB_USER     | NO        |               | the username to use to connect to the mongodb database (no authentification configured by default) |
 | CHAT_MONGO_DB_PASSWORD | NO        |               | the password to use to connect to the mongodb database (no authentification configured by default) |
