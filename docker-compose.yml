@@ -16,7 +16,7 @@ services:
     volumes:
       - chat_logs:/var/log/chat-server:rw
   mongo:
-    image: mongo:4.0
+    image: mongo:4.4
     volumes:
       - mongo_data:/data/db:rw
 volumes:
