@@ -6,7 +6,7 @@
 #           docker run -d --name=exo -p 80:8080 exoplatform/chat-server
 
 # ----- build step 1
-FROM  exoplatform/jdk:11-ubuntu-2004 AS install
+FROM  exoplatform/jdk:11-ubuntu-2204 AS install
 
 ARG CHAT_SERVER_VERSION=3.4.0-M13
 
