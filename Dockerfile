@@ -6,7 +6,7 @@
 #           docker run -d --name=exo -p 80:8080 exoplatform/chat-server
 
 # ----- build step 1
-FROM  exoplatform/jdk:11-ubuntu-2204 AS install
+FROM  exoplatform/jdk:17-ubuntu-2204 AS install
 
 ARG CHAT_SERVER_VERSION=3.4.0-20221116
 
@@ -18,7 +18,7 @@ RUN chmod u+x /download.sh && sync && /download.sh
 RUN cd /usr/local && unzip /chatserver.zip && mv chat-server-standalone-${CHAT_SERVER_VERSION} chat-server
 
 # ----- build step 2
-FROM  exoplatform/jdk:11-ubuntu-2004
+FROM  exoplatform/jdk:17-ubuntu-2204
 LABEL maintainer="eXo Platform <docker@exoplatform.com>"
 
 # Install the needed packages
