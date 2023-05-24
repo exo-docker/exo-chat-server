@@ -8,7 +8,7 @@
 # ----- build step 1
 FROM  exoplatform/jdk:17-ubuntu-2204 AS install
 
-ARG CHAT_SERVER_VERSION=3.5.0-20230523
+ARG CHAT_SERVER_VERSION=3.5.0-20230524
 
 COPY download.sh /
 RUN chmod u+x /download.sh && sync && /download.sh
