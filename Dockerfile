@@ -29,9 +29,9 @@ RUN apt-get -qq update && \
   apt-get -qq -y clean && \
   rm -rf /var/lib/apt/lists/*
 
-ENV CHAT_APP_DIR            /opt/chat-server
-ENV CHAT_CONF_DIR           /etc/chat-server
-ENV CHAT_LOG_DIR            /var/log/chat-server
+ENV CHAT_APP_DIR=/opt/chat-server
+ENV CHAT_CONF_DIR=/etc/chat-server
+ENV CHAT_LOG_DIR=/var/log/chat-server
 
 ENV EXO_USER=exo
 
